@@ -1,1 +1,1 @@
-worker: node guidebot/index.js
+worker: node index.js
