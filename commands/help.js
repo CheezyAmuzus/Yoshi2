@@ -7,6 +7,7 @@ help command, its extended help is shown.
 */
 
 exports.run = (client, message, args, level) => {
+  var Discord = require('discord.js');
   // If no specific command is called, show all filtered commands.
   if (!args[0]) {
     // Filter all commands by which are available for the user's level, using the <Collection>.filter() method.
@@ -14,9 +15,12 @@ exports.run = (client, message, args, level) => {
 
     // Here we have to get the command names only, and we use that array to get the longest name.
     // This make the help commands "aligned" in the output.
+
+
     const commandNames = myCommands.keyArray();
     const longest = commandNames.reduce((long, str) => Math.max(long, str.length), 0);
 
+    /*
     let currentCategory = "";
     let output = `= Command List =\n\n[Use ${message.settings.prefix}help <commandname> for details]\n`;
     const sorted = myCommands.array().sort((p, c) => p.help.category > c.help.category ? 1 :  p.help.name > c.help.name && p.help.category === c.help.category ? 1 : -1 );
@@ -29,6 +33,28 @@ exports.run = (client, message, args, level) => {
       output += `${message.settings.prefix}${c.help.name}${" ".repeat(longest - c.help.name.length)} :: ${c.help.description}\n`;
     });
     message.channel.send(output, {code: "asciidoc", split: { char: "\u200b" }});
+    */
+
+    let currentCategory = "";
+    let index = -1;
+    var embed = {
+      "title": "= __Command List__ =",
+      "description": `Use \`${message.settings.prefix}help [command]\` to get detailed information on a specific command. e.g. \`${message.settings.prefix}help mylevel\``,
+      "color": 2563607,
+      fields : []
+    };
+    const sorted = myCommands.array().sort((p, c) => p.help.category > c.help.category ? 1 :  p.help.name > c.help.name && p.help.category === c.help.category ? 1 : -1 );
+    sorted.forEach( c => {
+      const cat = c.help.category.toProperCase();
+      if (currentCategory !== cat) {
+        index = index + 1
+        embed.fields[index] = {name : `${cat}`,value : ""};
+        currentCategory = cat;
+      }
+      embed.fields[index].value += `|\`${c.help.name}\``;
+    });
+    console.log({embed});
+    message.channel.send({embed});
   } else {
     // Show individual command's help.
     let command = args[0];
@@ -49,7 +75,7 @@ exports.conf = {
 
 exports.help = {
   name: "help",
-  category: "System",
+  category: "User",
   description: "Displays all the available commands for your permission level.",
   usage: "help [command]"
 };
