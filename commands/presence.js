@@ -22,5 +22,5 @@ exports.run = (client, message, [type, url, ...game]) => {
     name: "presence",
     category: "Technical",
     description: "Set's Yoshi's presence.",
-    usage: "presence [status - 0:Playing 1:Streaming 2:Listening 3:Watching] [url (if streaming otherwise put n)] [game]"
+    usage: "presence [status - PLAYING,STREAMING,LISTENING,WATCHING] [url (if streaming otherwise put n)] [game]"
   };
