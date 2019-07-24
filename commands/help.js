@@ -53,7 +53,6 @@ exports.run = (client, message, args, level) => {
       }
       embed.fields[index].value += `|\`${c.help.name}\``;
     });
-    console.log({embed});
     message.channel.send({embed});
   } else {
     // Show individual command's help.
