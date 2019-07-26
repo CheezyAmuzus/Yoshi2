@@ -7,6 +7,14 @@ module.exports = async (client, message) => {
   // and not get into a spam loop (we call that "botception").
   if (message.author.bot) return;
 
+  if (message.content.startsWith('Creeper')) {
+    return message.channel.send("**Aw man**");
+  } else if (message.content.startsWith('Aw man')) {
+    return message.channel.send("No one said \"Creeper\"?");
+  } else if (message.content.startsWith('Aww man')) {
+    return message.channel.send("No one said \"Creeper\"?");
+  }
+
   // Grab the settings for this server from Enmap.
   // If there is no guild, get default conf (DMs)
   const settings = message.settings = client.getSettings(message.guild);
@@ -14,7 +22,7 @@ module.exports = async (client, message) => {
   // Checks if the bot was mentioned, with no message after it, returns the prefix.
   const prefixMention = new RegExp(`^<@!?${client.user.id}>( |)$`);
   if (message.content.match(prefixMention)) {
-    return message.reply(`My prefix on this guild is \`${settings.prefix}\``);
+    return message.reply(`My prefix is \`${settings.prefix}\``);
   }
 
   // Also good practice to ignore any message that does not start with our prefix,
